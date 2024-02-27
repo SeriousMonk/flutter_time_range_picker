@@ -122,11 +122,15 @@ showTimeRangePicker({
 
   /// barrierDismissible false = user must tap button!
   bool barrierDismissible = true,
+
+  BorderRadius? borderRadius
 }) async {
   assert(debugCheckHasMaterialLocalizations(context));
 
   final Widget dialog = Dialog(
       elevation: 12,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.circular(5)),
       child: TimeRangePicker(
         start: start,
         end: end,
@@ -612,32 +616,38 @@ class TimeRangePickerState extends State<TimeRangePicker>
     return OrientationBuilder(
       builder: (_, orientation) => orientation == Orientation.portrait
           ? Column(
-              key: _wrapperKey,
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 if (!widget.hideTimes) buildHeader(false),
-                Stack(
-                    //fit: StackFit.loose,
-                    alignment: Alignment.center,
-                    children: [
-                      if (widget.backgroundWidget != null)
-                        widget.backgroundWidget!,
-                      buildTimeRange(
-                          localizations: localizations, themeData: themeData)
-                    ]),
+                Flexible(
+                  child: Container(
+                    key: _wrapperKey,
+                    width: double.infinity,
+                    child: Stack(
+                        //fit: StackFit.loose,
+                        alignment: Alignment.center,
+                        children: [
+                          if (widget.backgroundWidget != null)
+                            widget.backgroundWidget!,
+                          buildTimeRange(
+                              localizations: localizations, themeData: themeData)
+                        ]),
+                  ),
+                ),
                 if (!widget.hideButtons)
                   buildButtonBar(localizations: localizations)
               ],
             )
           : Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 if (!widget.hideTimes) buildHeader(true),
-                Expanded(
+                Flexible(
                   child: Column(
                     children: [
-                      Expanded(
+                      Flexible(
                         child: Container(
                           key: _wrapperKey,
                           width: double.infinity,
@@ -718,7 +728,7 @@ class TimeRangePickerState extends State<TimeRangePicker>
                     ticksOffset: widget.ticksOffset,
                     labels: widget.labels ?? new List.empty(),
                     labelStyle:
-                        widget.labelStyle ?? themeData.textTheme.bodyText1,
+                        widget.labelStyle ?? themeData.textTheme.bodyLarge,
                     labelOffset: widget.labelOffset,
                     rotateLabels: widget.rotateLabels,
                     autoAdjustLabels: widget.autoAdjustLabels,
@@ -739,7 +749,7 @@ class TimeRangePickerState extends State<TimeRangePicker>
         backgroundColor = themeData.primaryColor;
         break;
       case Brightness.dark:
-        backgroundColor = themeData.backgroundColor;
+        backgroundColor = themeData.colorScheme.background;
         break;
     }
 
