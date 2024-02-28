@@ -755,16 +755,6 @@ class TimeRangePickerState extends State<TimeRangePicker>
   Widget buildHeader(bool landscape) {
     final ThemeData themeData = Theme.of(context);
 
-    Color backgroundColor;
-    switch (themeData.brightness) {
-      case Brightness.light:
-        backgroundColor = themeData.primaryColor;
-        break;
-      case Brightness.dark:
-        backgroundColor = themeData.colorScheme.background;
-        break;
-    }
-
     Color activeColor;
     Color inactiveColor;
     switch (ThemeData.estimateBrightnessForColor(themeData.primaryColor)) {
@@ -779,7 +769,7 @@ class TimeRangePickerState extends State<TimeRangePicker>
     }
 
     return Container(
-      color: backgroundColor,
+      color: themeData.colorScheme.primary,
       width: landscape ? widget.fixedLandscapeHeaderWidth : null,
       padding: EdgeInsets.all(24),
       child: Flex(
