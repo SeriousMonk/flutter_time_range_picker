@@ -44,6 +44,9 @@ showTimeRangePicker({
   /// the padding of the ring
   double padding = 36,
 
+  ///The padding for the dialog
+  EdgeInsets? insetPadding,
+
   /// the thickness of the ring
   double strokeWidth = 12,
 
@@ -131,6 +134,7 @@ showTimeRangePicker({
       elevation: 12,
       clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.circular(5)),
+      insetPadding: insetPadding,
       child: TimeRangePicker(
         start: start,
         end: end,
