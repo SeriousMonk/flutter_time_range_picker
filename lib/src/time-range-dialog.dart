@@ -47,6 +47,10 @@ showTimeRangePicker({
   ///The padding for the dialog
   EdgeInsets? insetPadding,
 
+  ///The width to set for the header in landscape mode only (to prevent the header
+  ///resizing based on the content size causing widget jiggle when changing times)
+  double? fixedLandscapeHeaderWidth,
+
   /// the thickness of the ring
   double strokeWidth = 12,
 
@@ -144,6 +148,7 @@ showTimeRangePicker({
         onEndChange: onEndChange,
         fromText: fromText,
         toText: toText,
+        fixedLandscapeHeaderWidth: fixedLandscapeHeaderWidth,
         interval: interval,
         padding: padding,
         strokeWidth: strokeWidth,
@@ -200,6 +205,8 @@ class TimeRangePicker extends StatefulWidget {
   final String toText;
   final String fromText;
 
+  final double? fixedLandscapeHeaderWidth;
+
   final double padding;
   final double strokeWidth;
   final double handlerRadius;
@@ -247,6 +254,7 @@ class TimeRangePicker extends StatefulWidget {
     this.onEndChange,
     this.fromText = "From",
     this.toText = "To",
+    this.fixedLandscapeHeaderWidth,
     this.interval = const Duration(minutes: 5),
     this.padding = 36,
     this.strokeWidth = 12,
@@ -772,6 +780,7 @@ class TimeRangePickerState extends State<TimeRangePicker>
 
     return Container(
       color: backgroundColor,
+      width: landscape ? widget.fixedLandscapeHeaderWidth : null,
       padding: EdgeInsets.all(24),
       child: Flex(
         direction: landscape ? Axis.vertical : Axis.horizontal,
